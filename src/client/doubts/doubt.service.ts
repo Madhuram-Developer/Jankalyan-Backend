@@ -1,5 +1,6 @@
 import prisma from '../../lib/prisma.js';
 import type { CreateDoubtData } from './doubt.types.js';
+import type { Prisma } from '../../lib/prisma.js';
 
 export const createDoubtService = async (data: CreateDoubtData) => {
 
@@ -7,7 +8,7 @@ export const createDoubtService = async (data: CreateDoubtData) => {
 
   const requestDate = requestTime ? new Date(requestTime) : new Date();
 
-  return await prisma.$transaction(async (tx) => {
+  return await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     let user = await tx.user.findUnique({ where: { phoneNumber } });
 
     if (!user) {
@@ -91,7 +92,7 @@ export const getAllDoubtsService = async (page: number = 1, limit: number = 10, 
 
   const totalPages = Math.ceil(total / limit);
 
-  const formattedDoubts = doubts.map(doubt => ({
+  const formattedDoubts = doubts.map((doubt: any) => ({
     id: doubt.id,
     fullName: doubt.user.fullName,
     dob: doubt.user.dateOfBirth,
