@@ -13,7 +13,10 @@ export interface CreateDoubtData {
 
 export interface DoubtResponse {
   id: string;
-  userId: string;
+  fullName: string;
+  dob?: Date | null;
+  phoneNumber: string;
+  gender?: string | null;
   category: string;
   question: string;
   answer: string;

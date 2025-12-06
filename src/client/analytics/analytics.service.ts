@@ -15,16 +15,27 @@ export const getAnalyticsService = async (): Promise<AnalyticsResponse> => {
   });
 
   // Age range counts
-  const users = await prisma.user.findMany({
+  const queries = await prisma.query.findMany({
     where: {
       dateOfBirth: {
         not: null,
       },
     },
     select: {
+      phoneNumber: true,
       dateOfBirth: true,
     },
   });
+
+  // Get unique users by phoneNumber
+  const uniqueUsers = new Map<string, Date>();
+  queries.forEach(query => {
+    if (query.dateOfBirth && !uniqueUsers.has(query.phoneNumber)) {
+      uniqueUsers.set(query.phoneNumber, query.dateOfBirth);
+    }
+  });
+
+  const users = Array.from(uniqueUsers.values()).map(dateOfBirth => ({ dateOfBirth }));
 
   const ageRangeCounts = calculateAgeRangeCounts(users);
 

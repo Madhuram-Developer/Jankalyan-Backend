@@ -25,7 +25,7 @@ export const createDoubtController = asyncHandler(async (req: Request, res: Resp
       requestTime: req.headers['x-timestamp'] as string,
     });
 
-    res.status(201).json(new ApiResponse(201, { userId: result.userId, queryId: result.queryId }, 'Question submitted successfully'));
+    res.status(201).json(new ApiResponse(201, { queryId: result.queryId }, 'Question submitted successfully'));
   } catch (error) {
     throw new ApiError(500, 'Failed to create doubt');
   }
@@ -87,15 +87,15 @@ export const addAnswerController = asyncHandler(async (req: Request, res: Respon
 
 export const getDoubtsByIdsController = asyncHandler(async (req: Request, res: Response) => {
   
-  const { userHistory: ids } = req.body;
+  const { ids } = req.body;
 
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
     throw new ApiError(400, 'Ids array is required and must be non-empty');
   }
 
-  for (const item of ids) {
-    if (!item.userId || !item.queryId) {
-      throw new ApiError(400, 'Each item must have userId and queryId');
+  for (const id of ids) {
+    if (typeof id !== 'string') {
+      throw new ApiError(400, 'Each id must be a string');
     }
   }
 

@@ -8,39 +8,24 @@ export const createDoubtService = async (data: CreateDoubtData) => {
 
   const requestDate = requestTime ? new Date(requestTime) : new Date();
 
-  return await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
-    let user = await tx.user.findUnique({ where: { phoneNumber } });
-
-    if (!user) {
-      user = await tx.user.create({
-        data: {
-          phoneNumber,
-          fullName: fullName || '',
-          dateOfBirth: dob ? new Date(dob) : null,
-          gender: gender || null,
-          location: location || null,
-          createdAt: requestDate,
-          updatedAt: requestDate,
-        }
-      });
+  const query = await prisma.query.create({
+    data: {
+      phoneNumber,
+      fullName: fullName || '',
+      dateOfBirth: dob ? new Date(dob) : null,
+      gender: gender || null,
+      category: questionCategory,
+      question: questionDescription,
+      answer: '',
+      location: location || null,
+      ipAddress: ipAddress || null,
+      deviceInfo: deviceInfo || null,
+      createdAt: requestDate,
+      updatedAt: requestDate,
     }
-
-    const query = await tx.query.create({
-      data: {
-        userId: user.id,
-        category: questionCategory,
-        question: questionDescription,
-        answer: '',
-        location: location || null,
-        ipAddress: ipAddress || null,
-        deviceInfo: deviceInfo || null,
-        createdAt: requestDate,
-        updatedAt: requestDate,
-      }
-    });
-
-    return { userId: user.id, queryId: query.id };
   });
+
+  return { queryId: query.id };
 };
 
 export const getAllDoubtsService = async (page: number = 1, limit: number = 10, filters?: { date?: string | undefined; status?: string | undefined; category?: string | undefined }) => {
@@ -76,16 +61,6 @@ export const getAllDoubtsService = async (page: number = 1, limit: number = 10, 
       skip,
       take: limit,
       orderBy: { createdAt: 'desc' },
-      include: {
-        user: {
-          select: {
-            fullName: true,
-            dateOfBirth: true,
-            gender: true,
-            phoneNumber: true,
-          }
-        }
-      }
     }),
     prisma.query.count({ where }),
   ]);
@@ -94,10 +69,10 @@ export const getAllDoubtsService = async (page: number = 1, limit: number = 10, 
 
   const formattedDoubts = doubts.map((doubt: any) => ({
     id: doubt.id,
-    fullName: doubt.user.fullName,
-    dob: doubt.user.dateOfBirth,
-    gender: doubt.user.gender,
-    phoneNumber: doubt.user.phoneNumber,
+    fullName: doubt.fullName,
+    dob: doubt.dateOfBirth,
+    gender: doubt.gender,
+    phoneNumber: doubt.phoneNumber,
     question: doubt.question,
     category: doubt.category,
     answer: doubt.answer,
@@ -126,26 +101,22 @@ export const addAnswerService = async (id: string, answer: string) => {
   });
 };
 
-export const getDoubtsByIdsService = async (ids: { userId: string; queryId: string }[]) => {
+export const getDoubtsByIdsService = async (ids: string[]) => {
   const results = await Promise.all(
-    ids.map(async ({ userId, queryId }) => {
-      const query = await prisma.query.findFirst({
-        where: { id: queryId, userId },
+    ids.map(async (id) => {
+      const query = await prisma.query.findUnique({
+        where: { id },
         select: {
           id: true,
+          fullName: true,
+          phoneNumber: true,
           question: true,
           answer: true,
           createdAt: true,
           updatedAt: true,
-          user: {
-            select: {
-              fullName: true,
-              phoneNumber: true,
-            },
-          },
         },
       });
-      return query ? { ...query, userId, queryId } : null;
+      return query;
     })
   );
 

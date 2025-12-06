@@ -13,9 +13,11 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+const isProduction = process.env.NODE_ENV === 'production';
+
 app.use(cors({
-  origin : process.env.FRONTEND_URL!,
-  credentials: true
+  origin: process.env.FRONTEND_URL || (isProduction ? false : 'http://localhost:3000'),
+  credentials: !isProduction
 }));
 
 app.get('/', (req, res) => {
