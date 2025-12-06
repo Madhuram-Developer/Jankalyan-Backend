@@ -46,6 +46,8 @@ model AppSettings {
   title          String?
   upiId          String?
   TransactionNote String?
+  titleHindi     String?
+  descriptionHindi String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }

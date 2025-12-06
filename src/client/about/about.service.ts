@@ -15,6 +15,12 @@ export const getAppSettingsService = async () => {
         bankName: '',
         ifscCode: '',
         accountNumber: '',
+        videoUrl: '',
+        title: '',
+        upiId: '',
+        TransactionNote: '',
+        titleHindi: '',
+        descriptionHindi: '',
       },
     });
   }
@@ -32,6 +38,8 @@ export const updateAppSettingsService = async (data: {
   title?: string;
   upiId?: string;
   TransactionNote?: string;
+  titleHindi?: string;
+  descriptionHindi?: string;
 }) => {
 
   return await prisma.appSettings.upsert({
@@ -51,6 +59,8 @@ export const updateAppSettingsService = async (data: {
       title: data.title || '',
       upiId: data.upiId || '',
       TransactionNote: data.TransactionNote || '',
+      titleHindi: data.titleHindi || '',
+      descriptionHindi: data.descriptionHindi || '',
     },
   });
 };
