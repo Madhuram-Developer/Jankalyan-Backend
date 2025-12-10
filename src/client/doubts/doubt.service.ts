@@ -4,7 +4,7 @@ import type { Prisma } from '../../lib/prisma.js';
 
 export const createDoubtService = async (data: CreateDoubtData) => {
 
-  const { fullName, dob, phoneNumber, gender, questionCategory, questionDescription, location, ipAddress, deviceInfo, requestTime } = data;
+  const { fullName, dob, phoneNumber, gender, city, state, questionCategory, questionDescription, location, ipAddress, deviceInfo, requestTime } = data;
 
   const requestDate = requestTime ? new Date(requestTime) : new Date();
 
@@ -14,6 +14,8 @@ export const createDoubtService = async (data: CreateDoubtData) => {
       fullName: fullName || '',
       dateOfBirth: dob ? new Date(dob) : null,
       gender: gender || null,
+      city: city || null,
+      state: state || null,
       category: questionCategory,
       question: questionDescription,
       answer: '',
@@ -25,7 +27,7 @@ export const createDoubtService = async (data: CreateDoubtData) => {
     }
   });
 
-  return { queryId: query.id };
+  return query;
 };
 
 export const getAllDoubtsService = async (page: number = 1, limit: number = 10, filters?: { date?: string | undefined; status?: string | undefined; category?: string | undefined }) => {
@@ -72,6 +74,8 @@ export const getAllDoubtsService = async (page: number = 1, limit: number = 10, 
     fullName: doubt.fullName,
     dob: doubt.dateOfBirth,
     gender: doubt.gender,
+    city: doubt.city,
+    state: doubt.state,
     phoneNumber: doubt.phoneNumber,
     question: doubt.question,
     category: doubt.category,
@@ -110,6 +114,8 @@ export const getDoubtsByIdsService = async (ids: { queryId: string }[]) => {
           id: true,
           fullName: true,
           phoneNumber: true,
+          city: true,
+          state: true,
           question: true,
           answer: true,
           createdAt: true,

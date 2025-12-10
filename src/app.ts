@@ -4,6 +4,7 @@ import adminUserRouter from './client/adminUser/adminUser.route.js';
 import analyticsRouter from './client/analytics/analytics.route.js';
 import jaapRouter from './client/jaap/jaap.route.js';
 import aboutRouter from './client/about/about.route.js';
+import categoriesRouter from './client/categories/categories.route.js';
 import 'dotenv/config';
 import { ApiError } from './utils/ApiError.js';
 import cors from 'cors';
@@ -33,6 +34,7 @@ app.use('/api/v1/admin', adminUserRouter);
 app.use('/api/v1/analytics', analyticsRouter);
 app.use('/api/v1/jaap', jaapRouter);
 app.use('/api/v1/about', aboutRouter);
+app.use('/api/v1/categories', categoriesRouter);
 
 // Global error handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

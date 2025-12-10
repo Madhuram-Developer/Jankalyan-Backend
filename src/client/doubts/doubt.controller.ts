@@ -5,7 +5,7 @@ import { ApiError } from '../../utils/ApiError.js';
 import { ApiResponse } from '../../utils/ApiResponse.js';
 
 export const createDoubtController = asyncHandler(async (req: Request, res: Response) => {
-  const { fullName, dateOfBirth, phoneNumber, questionCategory, questionDescription, gender } = req.body;
+  const { fullName, dateOfBirth, phoneNumber, questionCategory, questionDescription, gender, city, state } = req.body;
 
   if (!phoneNumber || !questionCategory || !questionDescription) {
     throw new ApiError(400, 'Missing required fields: phoneNumber, questionCategory, questionDescription');
@@ -17,6 +17,8 @@ export const createDoubtController = asyncHandler(async (req: Request, res: Resp
       dob : dateOfBirth,
       phoneNumber,
       gender ,
+      city,
+      state,
       questionCategory,
       questionDescription,
       location : 'Rih',
@@ -25,7 +27,10 @@ export const createDoubtController = asyncHandler(async (req: Request, res: Resp
       requestTime: req.headers['x-timestamp'] as string,
     });
 
-    res.status(201).json(new ApiResponse(201, { queryId: result.queryId }, 'Question submitted successfully'));
+    const queryIds = [{ queryId: result.id }];
+    const data = await getDoubtsByIdsService(queryIds);
+
+    res.status(201).json(new ApiResponse(201, data[0], 'Question submitted successfully'));
   } catch (error) {
     throw new ApiError(500, 'Failed to create doubt');
   }

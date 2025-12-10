@@ -3,6 +3,8 @@ export interface CreateDoubtData {
   dob?: string;
   phoneNumber: string;
   gender?: string;
+  city?: string;
+  state?: string;
   questionCategory: string;
   questionDescription: string;
   location?: string;
@@ -17,6 +19,8 @@ export interface DoubtResponse {
   dob?: Date | null;
   phoneNumber: string;
   gender?: string | null;
+  city?: string | null;
+  state?: string | null;
   category: string;
   question: string;
   answer: string;

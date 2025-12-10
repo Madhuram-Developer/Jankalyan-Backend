@@ -14,6 +14,8 @@ model Query {
   fullName        String
   dateOfBirth     DateTime?
   location        String?
+  city            String?
+  state           String?
   gender          String?
   category        String
   question        String
