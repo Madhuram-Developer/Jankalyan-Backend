@@ -37,13 +37,3 @@ export const increaseJaapCountService = async (deviceId: string, location?: stri
     });
   }
 };
-
-export const getTotalJaapCountService = async () => {
-  const result = await prisma.jaapCount.aggregate({
-    _sum: {
-      jaapCount: true,
-    },
-  });
-
-  return { total : result._sum.jaapCount || 0 };
-};

@@ -105,26 +105,22 @@ export const addAnswerService = async (id: string, answer: string) => {
   });
 };
 
-export const getDoubtsByIdsService = async (ids: { queryId: string }[]) => {
-  const results = await Promise.all(
-    ids.map(async ({ queryId }) => {
-      const query = await prisma.query.findUnique({
-        where: { id: queryId },
-        select: {
-          id: true,
-          fullName: true,
-          phoneNumber: true,
-          city: true,
-          state: true,
-          question: true,
-          answer: true,
-          createdAt: true,
-          updatedAt: true,
-        },
-      });
-      return query;
-    })
-  );
+export const getDoubtsByIdsService = async (ids :string[]) => {
+  console.log('Fetching doubts for IDs:', ids);
+  const results = await prisma.query.findMany({
+    where: { id: { in: ids } },
+    select: {
+      id: true,
+      fullName: true,
+      phoneNumber: true,
+      city: true,
+      state: true,
+      question: true,
+      answer: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
 
-  return results.filter(Boolean);
+  return results;
 };

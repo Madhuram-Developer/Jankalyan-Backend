@@ -1,9 +1,9 @@
 import express from 'express';
-import { increaseJaapCountController, getTotalJaapCountController } from './jaap.controller.js';
+import { increaseJaapCountController, getJaapImages } from './jaap.controller.js';
 
 const router = express.Router();
 
 router.post('/increasecount/:deviceID', increaseJaapCountController);
-router.get('/total', getTotalJaapCountController);
+router.get('/jaapimages', getJaapImages);
 
 export default router;

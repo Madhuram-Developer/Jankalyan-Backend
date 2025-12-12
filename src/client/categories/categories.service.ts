@@ -112,6 +112,14 @@ export const getCategoriesService = () => {
       "en": "In whose name to buy a vehicle",
       "hi": "वाहन किसके नाम पे ले"
     }
+  },
+  {
+    "id": 15,
+    "value": "others",
+    "label": {
+      "en": "Others",
+      "hi": "अन्य"
+    }
   }
 ]
 

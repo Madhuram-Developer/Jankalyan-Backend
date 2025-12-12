@@ -27,11 +27,9 @@ export const createDoubtController = asyncHandler(async (req: Request, res: Resp
       requestTime: req.headers['x-timestamp'] as string,
     });
 
-    const queryIds = [{ queryId: result.id }];
-    const data = await getDoubtsByIdsService(queryIds);
-
-    res.status(201).json(new ApiResponse(201, data[0], 'Question submitted successfully'));
+    res.status(201).json(new ApiResponse(201, result, 'Question submitted successfully'));
   } catch (error) {
+    console.log(error);
     throw new ApiError(500, 'Failed to create doubt');
   }
 });
@@ -97,13 +95,6 @@ export const getDoubtsByIdsController = asyncHandler(async (req: Request, res: R
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
     throw new ApiError(400, 'Ids array is required and must be non-empty');
   }
-
-  for (const item of ids) {
-    if (!item.queryId || typeof item.queryId !== 'string') {
-      throw new ApiError(400, 'Each item must have a valid queryId');
-    }
-  }
-
 
   try {
     const doubts = await getDoubtsByIdsService(ids);
