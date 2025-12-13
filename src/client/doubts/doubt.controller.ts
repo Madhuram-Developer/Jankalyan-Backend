@@ -92,12 +92,16 @@ export const getDoubtsByIdsController = asyncHandler(async (req: Request, res: R
   
   const { userHistory : ids } = req.body;
 
+  console.log('Received IDs:', ids);
+
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
     throw new ApiError(400, 'Ids array is required and must be non-empty');
   }
 
   try {
     const doubts = await getDoubtsByIdsService(ids);
+
+    console.log('Retrieved doubts:', doubts);
 
     res.status(200).json(new ApiResponse(200, doubts, 'Doubts details retrieved successfully'));
   } catch (error) {
