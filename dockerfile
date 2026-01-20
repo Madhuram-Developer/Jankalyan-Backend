@@ -1,13 +1,12 @@
-FROM node:20-alpine
+FROM node:22-alpine
 
 WORKDIR /app
 
-COPY package*.json tsconfig.json ./
-RUN npm install
-
 COPY . .
 
-RUN npm run build   # tsc → dist/
+RUN npm install
+RUN npm run build
 
-EXPOSE 8800
-CMD ["node", "dist/index.js"]
+EXPOSE 3000
+
+CMD ["node", "dist/src/index.js"]
