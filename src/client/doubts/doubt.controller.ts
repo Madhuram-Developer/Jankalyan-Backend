@@ -44,8 +44,6 @@ export const getAllDoubtsController = asyncHandler(async (req: Request, res: Res
     status: status as string | undefined,
     category: category as string | undefined,
   };
-  console.log('Filters:', date);
-
   const result = await getAllDoubtsService(page, limit, filters);
 
   res.status(200).json(new ApiResponse(200, result));

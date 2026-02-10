@@ -5,10 +5,13 @@ import analyticsRouter from './client/analytics/analytics.route.js';
 import jaapRouter from './client/jaap/jaap.route.js';
 import aboutRouter from './client/about/about.route.js';
 import categoriesRouter from './client/categories/categories.route.js';
+import logsRouter from './client/logs/logs.route.js';
 import 'dotenv/config';
 import { ApiError } from './utils/ApiError.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { apiLoggerMiddleware } from './middleware/apiLogger.middleware.js';
+import { errorLoggerMiddleware } from './middleware/errorLogger.middleware.js';
 
 const app = express();
 
@@ -20,6 +23,9 @@ app.use(cors({
   origin: isProduction ? process.env.FRONTEND_URL!  : 'http://localhost:8010',
   credentials: isProduction
 }));
+
+// API request logger - logs all requests
+app.use(apiLoggerMiddleware);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to Jankalyan Backend!' });
@@ -35,8 +41,10 @@ app.use('/api/v1/analytics', analyticsRouter);
 app.use('/api/v1/jaap', jaapRouter);
 app.use('/api/v1/about', aboutRouter);
 app.use('/api/v1/categories', categoriesRouter);
+app.use('/api/v1/logs', logsRouter);
 
-// Global error handler
+app.use(errorLoggerMiddleware);
+
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (err instanceof ApiError) {
         return res.status(err.statusCode).json({
@@ -45,7 +53,6 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
             errors: err.errors
         });
     }
-    // For other errors
     console.error(err);
     res.status(500).json({
         success: false,

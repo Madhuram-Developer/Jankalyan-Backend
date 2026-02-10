@@ -38,7 +38,6 @@ export const getAllDoubtsService = async (page: number = 1, limit: number = 10, 
   if (filters?.date) {
     const filterDate = new Date(filters.date);
     const startOfDay = new Date(filterDate.getFullYear(), filterDate.getMonth(), filterDate.getDate());
-    console.log('Start of Day:', startOfDay);
     where.createdAt = {
       gte: startOfDay,
       lt: new Date(),
