@@ -76,6 +76,7 @@ export const loginAdminController = asyncHandler(async (req: Request, res: Respo
             secure: process.env.NODE_ENV  === 'production',
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             path: '/', 
+            domain: '.jankalyantrust.com',
             maxAge: 14 * 24 * 60 * 60 * 1000, 
         })
         .status(200)
