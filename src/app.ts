@@ -17,14 +17,13 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-const isProduction = process.env.NODE_ENV === 'production';
 
+const originRegex = new RegExp(process.env.CORS_ORIGIN!);
 app.use(cors({
-  origin: isProduction ? process.env.FRONTEND_URL!  : 'http://localhost:8010',
-  credentials: isProduction
-}));
+    origin: originRegex,
+    credentials : true
+}))
 
-// API request logger - logs all requests
 app.use(apiLoggerMiddleware);
 
 app.get('/', (req, res) => {
