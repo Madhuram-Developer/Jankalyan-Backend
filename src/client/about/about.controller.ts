@@ -11,7 +11,7 @@ export const getAppSettingsController = asyncHandler(async (req: Request, res: R
 });
 
 export const updateAppSettingsController = asyncHandler(async (req: Request, res: Response) => {
-  const { description, paymentQR, bankName, ifscCode, accountNumber, videoUrl, title, upiId, TransactionNote, titleHindi, descriptionHindi, targetAmount, collectedAmount, totalAmount } = req.body;
+  const { description, paymentQR, bankName, ifscCode, accountNumber, videoUrl, title, upiId, TransactionNote, titleHindi, descriptionHindi, targetAmount, collectedAmount, totalAmount, accountName } = req.body;
 
   const updatedSettings = await updateAppSettingsService({
     description,
@@ -25,6 +25,7 @@ export const updateAppSettingsController = asyncHandler(async (req: Request, res
     TransactionNote,
     titleHindi,
     descriptionHindi,
+    accountName,
     targetAmount: targetAmount !== undefined ? parseFloat(targetAmount) : null,
     collectedAmount: collectedAmount !== undefined ? parseFloat(collectedAmount) : null,
     totalAmount: totalAmount !== undefined ? parseFloat(totalAmount) : null,

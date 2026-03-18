@@ -13,7 +13,7 @@ const router = express.Router();
 router.get('/', getAllDonationUsagesController);
 router.get('/:id', getDonationUsageByIdController);
 router.post('/', authenticateToken, createDonationUsageController);
-router.put('/:id', authenticateToken, updateDonationUsageController);
-router.delete('/:id', authenticateToken, deleteDonationUsageController);
+router.post('/:id', authenticateToken, updateDonationUsageController);
+router.post('/:id/delete', authenticateToken, deleteDonationUsageController);
 
 export default router;

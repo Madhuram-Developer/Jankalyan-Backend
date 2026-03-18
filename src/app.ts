@@ -42,7 +42,7 @@ app.use('/api/v1/jaap', jaapRouter);
 app.use('/api/v1/about', aboutRouter);
 app.use('/api/v1/categories', categoriesRouter);
 app.use('/api/v1/logs', logsRouter);
-app.use('/api/v1/donation-usage', donationUsageRouter);
+app.use('/api/v1/donations', donationUsageRouter);
 
 app.use(errorLoggerMiddleware);
 

@@ -1,6 +1,6 @@
 import prisma from '../../lib/prisma.js';
 
-export const increaseJaapCountService = async (identifier: string, isPhone: boolean, deviceId: string, name?: string, city?: string, location?: string, ipAddress?: string, deviceInfo?: string, requestTime? : string) => {
+export const increaseJaapCountService = async (identifier: string, isPhone: boolean, deviceId: string, name?: string, city?: string, location?: string, ipAddress?: string, deviceInfo?: string, requestTime?: string) => {
 
   const whereClause = isPhone ? { phone: identifier } : { deviceId: identifier };
   const existing = await prisma.jaapCount.findFirst({
@@ -14,7 +14,7 @@ export const increaseJaapCountService = async (identifier: string, isPhone: bool
 
   if (existing) {
     const updateData: any = {
-      jaapCount: { increment: 1 },
+      jaapCount: { increment: 5 },
       updatedAt: requestTime,
     };
     if (name !== undefined) updateData.name = name;
@@ -30,7 +30,7 @@ export const increaseJaapCountService = async (identifier: string, isPhone: bool
   } else {
     const createData: any = {
       deviceId,
-      jaapCount: 1,
+      jaapCount: 5,
       createdAt: requestTime,
       updatedAt: requestTime,
     };
