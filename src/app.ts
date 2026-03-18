@@ -6,6 +6,7 @@ import jaapRouter from './client/jaap/jaap.route.js';
 import aboutRouter from './client/about/about.route.js';
 import categoriesRouter from './client/categories/categories.route.js';
 import logsRouter from './client/logs/logs.route.js';
+import donationUsageRouter from './client/donationUsage/donationUsage.route.js';
 import 'dotenv/config';
 import { ApiError } from './utils/ApiError.js';
 import cors from 'cors';
@@ -41,6 +42,7 @@ app.use('/api/v1/jaap', jaapRouter);
 app.use('/api/v1/about', aboutRouter);
 app.use('/api/v1/categories', categoriesRouter);
 app.use('/api/v1/logs', logsRouter);
+app.use('/api/v1/donation-usage', donationUsageRouter);
 
 app.use(errorLoggerMiddleware);
 

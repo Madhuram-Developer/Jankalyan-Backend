@@ -15,6 +15,7 @@ export const getAppSettingsService = async () => {
         bankName: '',
         ifscCode: '',
         accountNumber: '',
+        accountName: '',
         videoUrl: '',
         title: '',
         upiId: '',
@@ -37,6 +38,7 @@ export const updateAppSettingsService = async (data: {
   bankName?: string;
   ifscCode?: string;
   accountNumber?: string;
+  accountName?: string;
   videoUrl?: string;
   title?: string;
   upiId?: string;
@@ -61,6 +63,7 @@ export const updateAppSettingsService = async (data: {
       bankName: data.bankName || '',
       ifscCode: data.ifscCode || '',
       accountNumber: data.accountNumber || '',
+      accountName: data.accountName || '',
       videoUrl: data.videoUrl || '',
       title: data.title || '',
       upiId: data.upiId || '',
@@ -73,3 +76,4 @@ export const updateAppSettingsService = async (data: {
     },
   });
 };
+
